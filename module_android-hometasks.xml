@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_android-hometasks" default="compile.module.android-hometasks">
+  <dirname property="module.android-hometasks.basedir" file="${ant.file.module_android-hometasks}"/>
+  
+  <property name="module.jdk.home.android-hometasks" value="${jdk.home.android_4.0_platform}"/>
+  <property name="module.jdk.bin.android-hometasks" value="${jdk.bin.android_4.0_platform}"/>
+  <property name="module.jdk.classpath.android-hometasks" value="jdk.classpath.android_4.0_platform"/>
+  
+  <property name="compiler.args.android-hometasks" value="${compiler.args}"/>
+  
+  <property name="android-hometasks.output.dir" value="${module.android-hometasks.basedir}/out/production/android-hometasks"/>
+  <property name="android-hometasks.testoutput.dir" value="${module.android-hometasks.basedir}/out/test/android-hometasks"/>
+  
+  <path id="android-hometasks.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="android-hometasks.module.production.classpath">
+    <path refid="${module.jdk.classpath.android-hometasks}"/>
+  </path>
+  
+  <path id="android-hometasks.runtime.production.module.classpath">
+    <pathelement location="${android-hometasks.output.dir}"/>
+  </path>
+  
+  <path id="android-hometasks.module.classpath">
+    <path refid="${module.jdk.classpath.android-hometasks}"/>
+    <pathelement location="${android-hometasks.output.dir}"/>
+  </path>
+  
+  <path id="android-hometasks.runtime.module.classpath">
+    <pathelement location="${android-hometasks.testoutput.dir}"/>
+    <pathelement location="${android-hometasks.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.android-hometasks">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.android-hometasks">
+    <patternset refid="compiler.excluded"/>
+    <patternset refid="excluded.from.module.android-hometasks"/>
+  </patternset>
+  
+  <path id="android-hometasks.module.sourcepath">
+    <dirset dir="${module.android-hometasks.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.android-hometasks" depends="compile.module.android-hometasks.production,compile.module.android-hometasks.tests" description="Compile module android-hometasks"/>
+  
+  <target name="compile.module.android-hometasks.production" depends="register.custom.compilers" description="Compile module android-hometasks; production classes">
+    <mkdir dir="${android-hometasks.output.dir}"/>
+    <javac2 destdir="${android-hometasks.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.android-hometasks}/javac">
+      <compilerarg line="${compiler.args.android-hometasks}"/>
+      <bootclasspath refid="android-hometasks.module.bootclasspath"/>
+      <classpath refid="android-hometasks.module.production.classpath"/>
+      <src refid="android-hometasks.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.android-hometasks"/>
+    </javac2>
+    
+    <copy todir="${android-hometasks.output.dir}">
+      <fileset dir="${module.android-hometasks.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.android-hometasks"/>
+      </fileset>
+      <fileset dir="${module.android-hometasks.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.android-hometasks"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.android-hometasks.tests" depends="register.custom.compilers,compile.module.android-hometasks.production" description="compile module android-hometasks; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.android-hometasks" description="cleanup module">
+    <delete dir="${android-hometasks.output.dir}"/>
+    <delete dir="${android-hometasks.testoutput.dir}"/>
+  </target>
+</project>
