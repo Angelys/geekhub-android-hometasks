@@ -19,6 +19,7 @@ public class MyActivity extends Activity {
     {
         Intent intent = new Intent(this, MySecondActivity.class);
 
+
         startActivity(intent);
 
     }
