@@ -4,12 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
         >
-    <Button
-            android:id="@+id/NewActivityButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Button"
-            android:onClick="newActivity"
-            />
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container" />
+
 </LinearLayout>
 
