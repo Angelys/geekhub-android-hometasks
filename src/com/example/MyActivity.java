@@ -15,12 +15,4 @@ public class MyActivity extends Activity {
         setContentView(R.layout.main);
     }
 
-    public void newActivity(View view)
-    {
-        Intent intent = new Intent(this, MySecondActivity.class);
-
-
-        startActivity(intent);
-
-    }
 }
