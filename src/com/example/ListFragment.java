@@ -28,8 +28,6 @@ public class ListFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle bundle)
     {
-        ListView lv = (ListView) getView().findViewById(R.id.list);
-        lv.setAdapter(ArrayAdapter.);
     }
 
 }
