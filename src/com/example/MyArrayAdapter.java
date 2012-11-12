@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.json.simple.JSONArray;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,9 +22,9 @@ import android.widget.TextView;
 public class MyArrayAdapter extends ArrayAdapter {
 
     private final Context context;
-    private final String[] values;
+    private final ArrayList<HashMap<String, HashMap<String, String>>> values;
 
-    public MyArrayAdapter(Context context, String[] values) {
+    public MyArrayAdapter(Context context,ArrayList<HashMap<String, HashMap<String, String>>> values) {
         super(context, R.layout.rowlayout, values);
         this.context = context;
         this.values = values;
@@ -34,7 +38,8 @@ public class MyArrayAdapter extends ArrayAdapter {
         TextView title = (TextView) rowView.findViewById(R.id.title);
         TextView published = (TextView) rowView.findViewById(R.id.published);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        title.setText(values[position]);
+        title.setText(values.get(position).get("title").get("$t"));
+        published.setText(values.get(position).get("published").get("$t"));
 
         return rowView;
     }

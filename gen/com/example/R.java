@@ -14,13 +14,19 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int icon=0x7f050002;
-        public static final int published=0x7f050001;
-        public static final int title=0x7f050000;
+        public static final int descriprion=0x7f050001;
+        public static final int descriprion_title=0x7f050000;
+        public static final int fragment=0x7f050002;
+        public static final int icon=0x7f050005;
+        public static final int published=0x7f050004;
+        public static final int title=0x7f050003;
+        public static final int titlelist=0x7f050006;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int rowlayout=0x7f030001;
+        public static final int details=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int rowlayout=0x7f030002;
+        public static final int titleslist=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

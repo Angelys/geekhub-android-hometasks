@@ -37,15 +37,16 @@ public class JSONData extends Thread {
     {
         try
         {
-            URL yahoo = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
-            URLConnection yahooConnection = yahoo.openConnection();
+            URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
+            URLConnection urlConnection = url.openConnection();
             BufferedReader in = new BufferedReader(
-                    new InputStreamReader(yahooConnection.getInputStream()));
+                    new InputStreamReader(urlConnection.getInputStream()));
 
             return in;
 
         } catch (Exception e)
         {
+            e.printStackTrace();
              error = "request";
         }
 
