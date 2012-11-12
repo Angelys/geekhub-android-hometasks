@@ -60,7 +60,8 @@ public class ListFragment extends Fragment {
     public void onViewCreated(View view, Bundle bundle)
     {
         list = (ListView) view.findViewById(R.id.titlelist);
-
+        
+        //TODO Change this :). Also make object for Articles and make parse of JSON there. If you have some questions write me on skype.
         while(!JSONData.ready)
         {}
 
