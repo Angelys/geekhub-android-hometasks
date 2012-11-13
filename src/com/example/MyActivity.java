@@ -3,6 +3,7 @@ package com.example;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -23,7 +24,7 @@ public class MyActivity extends FragmentActivity implements ListFragment.onListE
         {
             ListFragment frag = new ListFragment();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, frag);
+            trans.add(R.id.listfragment, frag);
 
             trans.commit();
         }
@@ -33,13 +34,25 @@ public class MyActivity extends FragmentActivity implements ListFragment.onListE
 
     public void onItemSelected(int position)
     {
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        HashMap article = (HashMap)JSONData.getData().get(position);
 
-        DetailsFragment frag = new DetailsFragment((HashMap)JSONData.getData().get(position));
+        DetailsFragment detfrag = (DetailsFragment)getSupportFragmentManager().findFragmentById(R.id.detailsfragment);
 
-        trans.replace(R.id.fragment, frag);
-        trans.addToBackStack(null);
-        trans.commit();
+        if(detfrag != null)
+        {
+             detfrag.showArticle(article);
+        } else
+        {
+            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+            DetailsFragment frag = new DetailsFragment(article);
+
+            trans.replace(R.id.listfragment, frag);
+            trans.addToBackStack(null);
+            trans.commit();
+        }
+
+
 
     }
 

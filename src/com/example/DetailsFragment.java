@@ -45,17 +45,33 @@ public class DetailsFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle bundle)
     {
-        TextView title = (TextView)view.findViewById(R.id.descriprion_title);
-        WebView description = (WebView)view.findViewById(R.id.descriprion);
+        if(this.title != null && this.description != null)
+        {
+            TextView title = (TextView)view.findViewById(R.id.descriprion_title);
+            WebView description = (WebView)view.findViewById(R.id.descriprion);
 
-        title.setText(this.title);
-        description.loadData(this.description, "text/html", null);
+            title.setText(this.title);
+            description.loadData(this.description, "text/html", null);
+        }
+
     }
 
     public void onSaveInstanceState(Bundle out)
     {
         out.putString("title", this.title);
         out.putString("description", this.description);
+    }
+
+    public void showArticle(HashMap<String, HashMap<String, String>> post)
+    {
+        this.title = post.get("title").get("$t");
+        this.description = post.get("content").get("$t");
+
+        TextView title = (TextView)getView().findViewById(R.id.descriprion_title);
+        WebView description = (WebView)getView().findViewById(R.id.descriprion);
+
+        title.setText(this.title);
+        description.loadData(this.description, "text/html", null);
     }
 
 }

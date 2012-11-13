@@ -16,11 +16,12 @@ public final class R {
     public static final class id {
         public static final int descriprion=0x7f050001;
         public static final int descriprion_title=0x7f050000;
-        public static final int fragment=0x7f050002;
-        public static final int icon=0x7f050005;
-        public static final int published=0x7f050004;
-        public static final int title=0x7f050003;
-        public static final int titlelist=0x7f050006;
+        public static final int detailsfragment=0x7f050003;
+        public static final int icon=0x7f050006;
+        public static final int listfragment=0x7f050002;
+        public static final int published=0x7f050005;
+        public static final int title=0x7f050004;
+        public static final int titlelist=0x7f050007;
     }
     public static final class layout {
         public static final int details=0x7f030000;
