@@ -1,4 +1,4 @@
-package com.example;
+package com.example.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.utils.JSONData;
+import com.example.adapters.MyArrayAdapter;
+import com.example.R;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +26,7 @@ public class ListFragment extends Fragment {
 
     onListElementSelectedListener mCallBack;
 
-    interface onListElementSelectedListener
+    public interface onListElementSelectedListener
     {
         public void onItemSelected(int item);
     }

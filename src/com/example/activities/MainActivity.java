@@ -1,16 +1,16 @@
-package com.example;
+package com.example.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import com.example.fragments.DetailsFragment;
+import com.example.utils.JSONData;
+import com.example.fragments.ListFragment;
+import com.example.R;
 
 import java.util.HashMap;
 
-public class MyActivity extends FragmentActivity implements ListFragment.onListElementSelectedListener {
+public class MainActivity extends FragmentActivity implements ListFragment.onListElementSelectedListener {
     /**
      * Called when the activity is first created.
      */
@@ -34,7 +34,7 @@ public class MyActivity extends FragmentActivity implements ListFragment.onListE
 
     public void onItemSelected(int position)
     {
-        HashMap article = (HashMap)JSONData.getData().get(position);
+        HashMap article = (HashMap) JSONData.getData().get(position);
 
         DetailsFragment detfrag = (DetailsFragment)getSupportFragmentManager().findFragmentById(R.id.detailsfragment);
 

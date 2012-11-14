@@ -1,4 +1,4 @@
-package com.example;
+package com.example.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.R;
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
