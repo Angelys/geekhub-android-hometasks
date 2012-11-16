@@ -82,6 +82,8 @@ public class JSONData extends Thread {
 
         for(Object item : data)
         {
+	     // TODO it's better to avoid such constructions like ((HashMap)((HashMap) item).get("title")). 
+	     // In the final product we do not need System.out.println blocks
              System.out.println(((HashMap)((HashMap) item).get("title")).get("$t"));
         }
 

@@ -35,6 +35,8 @@ public class MyArrayAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	
+	// TODO use recycling here to avoid inflating view every time
         View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
         TextView title = (TextView) rowView.findViewById(R.id.title);
         TextView published = (TextView) rowView.findViewById(R.id.published);
