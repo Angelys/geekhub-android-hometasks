@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 import com.example.R;
+import com.example.objects.Article;
 
 import java.util.HashMap;
 
@@ -25,10 +26,10 @@ public class DetailsFragment extends Fragment {
 
     public DetailsFragment(){}
 
-    public DetailsFragment(HashMap<String, HashMap<String, String>> post)
+    public DetailsFragment(Article post)
     {
-        this.title = post.get("title").get("$t");
-        this.description = post.get("content").get("$t");
+        this.title = post.getTitle();
+        this.description = post.getDescription();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -63,10 +64,10 @@ public class DetailsFragment extends Fragment {
         out.putString("description", this.description);
     }
 
-    public void showArticle(HashMap<String, HashMap<String, String>> post)
+    public void showArticle(Article post)
     {
-        this.title = post.get("title").get("$t");
-        this.description = post.get("content").get("$t");
+        this.title = post.getTitle();
+        this.description = post.getDescription();
 
         TextView title = (TextView)getView().findViewById(R.id.descriprion_title);
         WebView description = (WebView)getView().findViewById(R.id.descriprion);

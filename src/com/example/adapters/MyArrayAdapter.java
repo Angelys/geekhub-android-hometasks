@@ -8,10 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.R;
+import com.example.objects.ArticleCollection;
+import com.example.objects.Article;
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,9 +26,9 @@ import java.util.HashMap;
 public class MyArrayAdapter extends ArrayAdapter {
 
     private final Context context;
-    private final ArrayList<HashMap<String, HashMap<String, String>>> values;
+    private final ArticleCollection values;
 
-    public MyArrayAdapter(Context context,ArrayList<HashMap<String, HashMap<String, String>>> values) {
+    public MyArrayAdapter(Context context,ArticleCollection values) {
         super(context, R.layout.rowlayout, values);
         this.context = context;
         this.values = values;
@@ -35,12 +38,15 @@ public class MyArrayAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+
         TextView title = (TextView) rowView.findViewById(R.id.title);
         TextView published = (TextView) rowView.findViewById(R.id.published);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        title.setText(values.get(position).get("title").get("$t"));
-        published.setText(values.get(position).get("published").get("$t"));
+
+        title.setText(values.get(position).getTitle());
+        published.setText(values.get(position).getPublished());
 
         return rowView;
     }

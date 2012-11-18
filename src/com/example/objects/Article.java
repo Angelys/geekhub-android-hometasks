@@ -15,6 +15,7 @@ public class Article {
 
     private String title;
     private String description;
+    private String published;
 
     public Article(){}
 
@@ -24,6 +25,7 @@ public class Article {
         {
             this.title = article.getJSONObject("title").getString("$t");
             this.description = article.getJSONObject("content").getString("$t");
+            this.published = article.getJSONObject("published").getString("$t");
 
         } catch (JSONException e){}
     }
@@ -46,6 +48,16 @@ public class Article {
     public String getDescription()
     {
         return this.description;
+    }
+
+    public void setPublished(String published)
+    {
+        this.published = published;
+    }
+
+    public String getPublished()
+    {
+        return this.published;
     }
 
 }

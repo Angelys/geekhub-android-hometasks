@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import com.example.fragments.DetailsFragment;
+import com.example.objects.Article;
 import com.example.utils.JSONData;
 import com.example.fragments.ListFragment;
 import com.example.R;
@@ -20,7 +21,7 @@ public class MainActivity extends FragmentActivity implements ListFragment.onLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        if(savedInstanceState == null)
+        if( getSupportFragmentManager().findFragmentById(R.id.listfragment) == null)
         {
             ListFragment frag = new ListFragment();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -32,10 +33,8 @@ public class MainActivity extends FragmentActivity implements ListFragment.onLis
 
     }
 
-    public void onItemSelected(int position)
+    public void onItemSelected(Article article)
     {
-        HashMap article = (HashMap) JSONData.getData().get(position);
-
         DetailsFragment detfrag = (DetailsFragment)getSupportFragmentManager().findFragmentById(R.id.detailsfragment);
 
         if(detfrag != null)

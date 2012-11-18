@@ -1,7 +1,9 @@
 package com.example.utils;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import com.example.objects.ArticleCollection;
+import com.example.objects.Article;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,19 +21,14 @@ import java.util.HashMap;
  * Time: 9:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class JSONData extends Thread {
+public class JSONData {
 
-    private static JSONObject data;
-    private String error;
-    public static Boolean ready = false;
-
-    @Override
-    public void run()
+    public static ArticleCollection run()
     {
-        parseData(getHTTP());
+        return parseData(getHTTP());
     }
 
-    private BufferedReader getHTTP()
+    private static String getHTTP()
     {
         try
         {
@@ -40,49 +37,51 @@ public class JSONData extends Thread {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(urlConnection.getInputStream()));
 
-            return in;
+            String line;
+            StringBuilder result = new StringBuilder();
+
+            while ( ( line = in.readLine()) != null)
+            {
+                result.append(line);
+            }
+
+            return result.toString();
 
         } catch (Exception e)
         {
             e.printStackTrace();
-             error = "request";
         }
 
-        return new BufferedReader(new InputStreamReader(new InputStream() {
-            @Override
-            public int read() throws IOException {
-                return 0;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        }));
+        return "";
     }
 
-    private void parseData(BufferedReader json_string)
+    private static ArticleCollection parseData(String json_string)
     {
-        data = (JSONObject)JSONValue.parse(json_string);
+        ArticleCollection result = new ArticleCollection();
 
-        ready = true;
-    }
+        try{
 
-    public static ArrayList getData()
-    {
-        JSONObject feed = (JSONObject)data.get("feed");
+         JSONObject json =  new JSONObject(json_string);
 
-        return (ArrayList)feed.get("entry");
+         result = new ArticleCollection(json.optJSONObject("feed").optJSONArray("entry"));
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return result;
+
     }
 
     public static void main(String[] args)
     {
         JSONData obj = new JSONData();
-        obj.start();
-        while(!JSONData.ready){
-             try{sleep(1000);}catch (Exception e){}
-        }
+        ArticleCollection collection = obj.run();
 
-        ArrayList data = JSONData.getData();
-
-        for(Object item : data)
+        for(Object item : collection)
         {
-             System.out.println(((HashMap)((HashMap) item).get("title")).get("$t"));
+             System.out.println(((Article)item).getTitle());
         }
 
         System.out.println("done");

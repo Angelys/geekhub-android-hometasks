@@ -13,7 +13,7 @@ import java.util.Vector;
  * Time: 3:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ArticleCollection extends Vector<Article> {
+public class ArticleCollection extends ArrayList<Article> {
 
     public static ArticleCollection fromJSONObject(JSONArray array)
     {
@@ -32,9 +32,9 @@ public class ArticleCollection extends Vector<Article> {
 
     public ArticleCollection(JSONArray array)
     {
-        for(int i = 0; i <= array.length() ; i++ )
+        for(int i = 0; i < array.length() ; i++ )
         {
-            this.set(i, new Article(array.optJSONObject(i)));
+            this.add(i, new Article(array.optJSONObject(i)));
         }
     }
 
