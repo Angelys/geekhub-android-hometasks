@@ -1,6 +1,8 @@
 package com.example.objects;
 
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,10 +13,17 @@ import org.json.JSONObject;
  * Time: 2:55 PM
  * To change this template use File | Settings | File Templates.
  */
+@DatabaseTable
 public class Article {
 
+    @DatabaseField(generatedId = true)
+    private int id;
+
+    @DatabaseField
     private String title;
+    @DatabaseField
     private String description;
+    @DatabaseField
     private String published;
 
     public Article(){}

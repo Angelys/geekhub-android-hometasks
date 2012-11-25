@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.example.objects.ArticleCollection;
 import com.example.objects.Article;
@@ -24,7 +25,9 @@ import com.example.R;
 public class ListFragment extends Fragment {
 
     private ListView list;
-    private ArticleCollection data;
+    public ArticleCollection data;
+    private View loading;
+    private LinearLayout loading_container;
 
     onListElementSelectedListener mCallBack;
 
@@ -37,19 +40,6 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container, savedInstanceState );
-
-        if( data == null)
-        {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    data = JSONData.run();
-
-                    updateUI();
-                }
-            }).start();
-        }
-
 
         return inflater.inflate(R.layout.titleslist, container, false);
     }
@@ -71,6 +61,8 @@ public class ListFragment extends Fragment {
     public void onViewCreated(View view, Bundle bundle)
     {
         list = (ListView) view.findViewById(R.id.titlelist);
+        loading_container = (LinearLayout) view.findViewById(R.id.loading_container);
+        loading = View.inflate(getActivity(), R.layout.loading, new LinearLayout(getActivity()));
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -80,6 +72,32 @@ public class ListFragment extends Fragment {
                 mCallBack.onItemSelected(data.get(position));
             }
         });
+
+        if(data == null)
+        {
+            getData();
+        } else
+        {
+            updateUI();
+        }
+    }
+
+    public void getData()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                showLoading();
+
+                data = JSONData.run();
+
+                updateUI();
+
+                hideLoading();
+
+            }
+        }).start();
     }
 
     public void updateUI()
@@ -93,6 +111,27 @@ public class ListFragment extends Fragment {
             }
         });
 
+    }
+
+    public void showLoading()
+    {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loading_container.addView(loading);
+            }
+        });
+
+    }
+
+    public void hideLoading()
+    {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loading_container.removeView(loading);
+            }
+        });
     }
 
 }

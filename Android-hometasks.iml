@@ -42,6 +42,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
     <orderEntry type="library" name="android-support-v4 (2)" level="project" />
+    <orderEntry type="library" name="ormlite-core-4.42" level="project" />
+    <orderEntry type="library" name="ormlite-android-4.42" level="project" />
+    <orderEntry type="library" name="ormlite-android-4.42-sources" level="project" />
+    <orderEntry type="library" name="ormlite-android-4.42-javadoc" level="project" />
+    <orderEntry type="library" name="ormlite-android-4.42-javadoc (2)" level="project" />
+    <orderEntry type="module" module-name="Action bar Sherlock" />
   </component>
 </module>
 

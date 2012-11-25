@@ -14,5 +14,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DetailsActivity"/>
+        <service android:name=".activities.DataUpdater"/>
     </application>
 </manifest>

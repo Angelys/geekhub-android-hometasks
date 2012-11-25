@@ -25,13 +25,19 @@ import java.util.List;
  */
 public class MyArrayAdapter extends ArrayAdapter {
 
-    private final Context context;
-    private final ArticleCollection values;
+    private Context context;
+    private ArticleCollection values;
 
     public MyArrayAdapter(Context context,ArticleCollection values) {
         super(context, R.layout.rowlayout, values);
         this.context = context;
         this.values = values;
+    }
+
+    public void setData(ArticleCollection data)
+    {
+        this.values = data;
+        this.notifyDataSetChanged();
     }
 
     @Override
