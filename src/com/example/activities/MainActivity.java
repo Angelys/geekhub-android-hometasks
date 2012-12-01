@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,13 +15,11 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.example.R;
 import com.example.fragments.DetailsFragment;
+import com.example.fragments.ListFragment;
 import com.example.objects.Article;
 import com.example.utils.JSONData;
-import com.example.fragments.ListFragment;
-import com.example.R;
-
-import java.util.HashMap;
 
 public class MainActivity extends SherlockFragmentActivity implements ListFragment.onListElementSelectedListener {
     /**
@@ -28,11 +27,17 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
      */
     InternetListener listener;
     ListFragment list_frag;
+    private static final int OPT_BUTTON_LIKE = 1;
+    private static final int OPT_BUTTON_ALLLIKES = 2;
+
+    public static final String updateData = "com.example.updateData";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        startService(new Intent(this, DataUpdater.class));
 
         if( getSupportFragmentManager().findFragmentById(R.id.listfragment) == null)
         {
@@ -60,6 +65,7 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
 
     public void onDestroy()
     {
+        stopService(new Intent(this, DataUpdater.class));
         unregisterReceiver(listener);
         super.onDestroy();
     }
@@ -83,6 +89,12 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
         }
     }
 
+    public void onReceive(Context context, Intent intent)
+    {
+            Log.i("MainActivity", "Catched");
+            //updateList();
+
+    }
 
     public static class InternetListener extends BroadcastReceiver {
 
@@ -124,41 +136,30 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-
         if(getSupportFragmentManager().findFragmentById(R.id.listfragment) != null)
         {
-            Button all_likes = new Button(this);
-            all_likes.setText("All_likes");
-
-            all_likes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                //TODO button click
-                }
-            });
-
-            layout.addView(all_likes);
+            menu.add(0,OPT_BUTTON_ALLLIKES, 0, "All likes");
         }
 
         if(getSupportFragmentManager().findFragmentById(R.id.detailsfragment) != null)
         {
-            Button like = new Button(this);
-            like.setText("Like");
+            menu.add(0,OPT_BUTTON_LIKE, 0, "Like");
+        }
 
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                //TODO button click
-                }
-            });
+        return super.onCreateOptionsMenu(menu);
+    }
 
-            layout.addView(like);
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case OPT_BUTTON_LIKE : {}
+
+            case OPT_BUTTON_ALLLIKES : {}
         }
 
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 }

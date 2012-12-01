@@ -29,13 +29,20 @@ public class DataUpdater extends Service {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //TODO update data
+
+                Intent i = new Intent();
+
+                i.setAction(MainActivity.updateData);
+
+                sendBroadcast(i);
+
             }
-        }, 60000, 60000);
+        }, 6000, 6000);
         return super.onStartCommand(intent, flags, startId);
     }
 
     public void onDestroy() {
+        timer.cancel();
         super.onDestroy();
     }
 
