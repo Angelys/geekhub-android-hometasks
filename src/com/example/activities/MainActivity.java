@@ -129,37 +129,10 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
             @Override
             public void run() {
                 list_frag.data = JSONData.run();
+                list_frag.notifyDataSetChanged();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if(getSupportFragmentManager().findFragmentById(R.id.listfragment) != null)
-        {
-            menu.add(0,OPT_BUTTON_ALLLIKES, 0, "All likes");
-        }
-
-        if(getSupportFragmentManager().findFragmentById(R.id.detailsfragment) != null)
-        {
-            menu.add(0,OPT_BUTTON_LIKE, 0, "Like");
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case OPT_BUTTON_LIKE : {}
-
-            case OPT_BUTTON_ALLLIKES : {}
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }

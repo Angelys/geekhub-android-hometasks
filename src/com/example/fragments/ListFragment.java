@@ -9,11 +9,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import com.example.objects.ArticleCollection;
-import com.example.objects.Article;
-import com.example.utils.JSONData;
-import com.example.adapters.MyArrayAdapter;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.adapters.MyArrayAdapter;
+import com.example.db.DatabaseHelperFactory;
+import com.example.objects.Article;
+import com.example.objects.ArticleCollection;
+import com.example.utils.JSONData;
+import java.util.List;
+
+import java.sql.SQLException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +30,9 @@ import com.example.R;
  * Time: 10:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends SherlockFragment {
+
+    public static ListFragment Instance;
 
     private ListView list;
     public ArticleCollection data;
@@ -36,10 +46,17 @@ public class ListFragment extends Fragment {
         public void onItemSelected(Article item);
     }
 
+    public void notifyDataSetChanged()
+    {
+        list.setAdapter(new MyArrayAdapter(getActivity(), data));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container, savedInstanceState );
+
+        Instance = this;
 
         return inflater.inflate(R.layout.titleslist, container, false);
     }
@@ -80,6 +97,12 @@ public class ListFragment extends Fragment {
         {
             updateUI();
         }
+    }
+
+    public void onDestroy()
+    {
+        Instance = null;
+        super.onDestroy();
     }
 
     public void getData()
@@ -132,6 +155,33 @@ public class ListFragment extends Fragment {
                 loading_container.removeView(loading);
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        menu.add(0,1,0,"All likes");
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == 1)
+        {
+            showLikes();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showLikes()
+    {
+        try{
+            data = (ArticleCollection)DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll();
+            updateUI();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

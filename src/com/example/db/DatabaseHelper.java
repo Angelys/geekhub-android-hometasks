@@ -72,4 +72,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return ArticleDao;
     }
 
+    @Override
+    public void close()
+    {
+        super.close();
+        ArticleDao = null;
+    }
+
 }

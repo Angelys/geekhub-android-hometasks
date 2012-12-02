@@ -7,10 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +26,11 @@ import java.util.HashMap;
  * Time: 3:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends SherlockFragment {
+
+    public static DetailsFragment Instance;
+
+    private Article article;
 
     private String title;
     private String description;
@@ -28,6 +39,7 @@ public class DetailsFragment extends Fragment {
 
     public DetailsFragment(Article post)
     {
+        this.article = post;
         this.title = post.getTitle();
         this.description = post.getDescription();
     }
@@ -41,6 +53,8 @@ public class DetailsFragment extends Fragment {
             this.title = (String)savedInstanceState.get("title");
             this.description = (String)savedInstanceState.get("description");
         }
+
+        Instance = this;
 
         return inflater.inflate(R.layout.details, container, false);
     }
@@ -56,6 +70,12 @@ public class DetailsFragment extends Fragment {
             description.loadData(this.description, "text/html", null);
         }
 
+    }
+
+    public void onDestroy()
+    {
+        Instance = null;
+        super.onDestroy();
     }
 
     public void onSaveInstanceState(Bundle out)
@@ -74,6 +94,45 @@ public class DetailsFragment extends Fragment {
 
         title.setText(this.title);
         description.loadData(this.description, "text/html", null);
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        List a = null;
+
+        try
+        {
+            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatching(article);
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        if(a != null)
+        {
+            menu.add(0,2,0,"Like");
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == 2)
+        {
+            likeArticle();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void likeArticle()
+    {
+        try
+        {
+            DatabaseHelperFactory.GetHelper().getArticleDao().create(article);
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }
