@@ -27,8 +27,8 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
      */
     InternetListener listener;
     ListFragment list_frag;
-    private static final int OPT_BUTTON_LIKE = 1;
-    private static final int OPT_BUTTON_ALLLIKES = 2;
+    public static final int OPT_BUTTON_LIKE = 1;
+    public static final int OPT_BUTTON_ALLLIKES = 2;
 
     public static final String updateData = "com.example.updateData";
 

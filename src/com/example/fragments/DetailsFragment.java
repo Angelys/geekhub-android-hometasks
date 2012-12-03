@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.activities.MainActivity;
 import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
 
@@ -47,7 +48,6 @@ public class DetailsFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container, savedInstanceState );
-
         if(savedInstanceState != null)
         {
             this.title = (String)savedInstanceState.get("title");
@@ -61,6 +61,8 @@ public class DetailsFragment extends SherlockFragment {
 
     public void onViewCreated(View view, Bundle bundle)
     {
+        setHasOptionsMenu(true);
+
         if(this.title != null && this.description != null)
         {
             TextView title = (TextView)view.findViewById(R.id.descriprion_title);
@@ -102,21 +104,24 @@ public class DetailsFragment extends SherlockFragment {
 
         try
         {
-            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatching(article);
+            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
 
-        if(a != null)
+        if(a == null)
         {
-            menu.add(0,2,0,"Like");
+            menu.add(0, MainActivity.OPT_BUTTON_LIKE,0,"Like").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        } else
+        {
+            menu.add(0,MainActivity.OPT_BUTTON_LIKE,0,"Liked").setEnabled(false).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getItemId() == 2)
+        if(item.getItemId() == MainActivity.OPT_BUTTON_LIKE)
         {
             likeArticle();
         }

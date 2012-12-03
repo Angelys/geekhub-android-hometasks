@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -35,6 +36,14 @@ public class ArticleCollection extends ArrayList<Article> {
         for(int i = 0; i < array.length() ; i++ )
         {
             this.add(i, new Article(array.optJSONObject(i)));
+        }
+    }
+
+    public ArticleCollection(List list)
+    {
+        for(int i = 0; i < list.size() ; i++ )
+        {
+            this.add(i, (Article)list.get(i));
         }
     }
 

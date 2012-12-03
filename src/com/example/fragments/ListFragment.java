@@ -14,6 +14,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.activities.MainActivity;
 import com.example.adapters.MyArrayAdapter;
 import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
@@ -57,6 +58,8 @@ public class ListFragment extends SherlockFragment {
         super.onCreateView(inflater,container, savedInstanceState );
 
         Instance = this;
+
+        setHasOptionsMenu(true);
 
         return inflater.inflate(R.layout.titleslist, container, false);
     }
@@ -160,12 +163,12 @@ public class ListFragment extends SherlockFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        menu.add(0,1,0,"All likes");
+        menu.add(0, MainActivity.OPT_BUTTON_ALLLIKES,0,"All likes").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getItemId() == 1)
+        if(item.getItemId() == MainActivity.OPT_BUTTON_ALLLIKES)
         {
             showLikes();
         }
@@ -176,7 +179,7 @@ public class ListFragment extends SherlockFragment {
     public void showLikes()
     {
         try{
-            data = (ArticleCollection)DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll();
+            data = new ArticleCollection(DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll());
             updateUI();
         } catch (SQLException e)
         {
