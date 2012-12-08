@@ -1,6 +1,8 @@
 package com.example.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,71 +33,35 @@ import java.sql.SQLException;
  * Time: 10:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ListFragment extends SherlockFragment {
+public class ListFragment extends BaseListFragment {
 
     public static ListFragment Instance;
+    public static ArticleCollection savedData;
 
-    private ListView list;
-    public ArticleCollection data;
-    private View loading;
-    private LinearLayout loading_container;
-
-    onListElementSelectedListener mCallBack;
-
-    public interface onListElementSelectedListener
-    {
-        public void onItemSelected(Article item);
-    }
-
-    public void notifyDataSetChanged()
-    {
-        list.setAdapter(new MyArrayAdapter(getActivity(), data));
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container, savedInstanceState );
+        setHasOptionsMenu(true);
+
+        if(Instance != null)
+        {
+            this.data = Instance.data;
+        }
 
         Instance = this;
 
-        setHasOptionsMenu(true);
-
-        return inflater.inflate(R.layout.titleslist, container, false);
-    }
-
-    @Override
-    public void onAttach(Activity activity)
-    {
-        super.onAttach(activity);
-
-        try
-        {
-            mCallBack = (onListElementSelectedListener) activity;
-        } catch (ClassCastException e)
-        {
-            throw new ClassCastException(activity.toString() + " must implement onListElementSelectedListener interface");
-        }
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public void onViewCreated(View view, Bundle bundle)
     {
-        list = (ListView) view.findViewById(R.id.titlelist);
+        super.onViewCreated(view, bundle);
+
         loading_container = (LinearLayout) view.findViewById(R.id.loading_container);
         loading = View.inflate(getActivity(), R.layout.loading, new LinearLayout(getActivity()));
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id)
-            {
-                mCallBack.onItemSelected(data.get(position));
-            }
-        });
-
         if(data == null)
         {
-            getData();
+            updateData();
         } else
         {
             updateUI();
@@ -104,39 +70,29 @@ public class ListFragment extends SherlockFragment {
 
     public void onDestroy()
     {
-        Instance = null;
+        getActivity().getPreferences(Context.MODE_PRIVATE).edit().remove(MainActivity.preferencesJSONData);
         super.onDestroy();
     }
 
     public void getData()
     {
+        data = JSONData.run();
+    }
+
+    public void updateData()
+    {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 showLoading();
 
-                data = JSONData.run();
+                getData();
 
                 updateUI();
 
                 hideLoading();
-
             }
         }).start();
-    }
-
-    public void updateUI()
-    {
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                list.setAdapter(new MyArrayAdapter(getActivity(), data));
-
-            }
-        });
-
     }
 
     public void showLoading()
@@ -178,13 +134,12 @@ public class ListFragment extends SherlockFragment {
 
     public void showLikes()
     {
-        try{
-            data = new ArticleCollection(DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll());
-            updateUI();
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        getSherlockActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.listfragment, new AllLikesFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
 }

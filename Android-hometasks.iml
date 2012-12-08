@@ -45,7 +45,6 @@
     <orderEntry type="library" name="ormlite-android-4.42" level="project" />
     <orderEntry type="library" name="ormlite-android-4.42-sources" level="project" />
     <orderEntry type="library" name="ormlite-android-4.42-javadoc" level="project" />
-    <orderEntry type="library" name="ormlite-android-4.42-javadoc (2)" level="project" />
     <orderEntry type="module" module-name="Action bar Sherlock" />
   </component>
 </module>

@@ -1,8 +1,9 @@
-package com.example.activities;
+package com.example.Services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import com.example.activities.MainActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,7 +38,7 @@ public class DataUpdater extends Service {
                 sendBroadcast(i);
 
             }
-        }, 6000, 6000);
+        }, 60000, 60000);
         return super.onStartCommand(intent, flags, startId);
     }
 

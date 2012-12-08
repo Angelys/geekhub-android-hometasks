@@ -12,7 +12,10 @@ import com.example.objects.ArticleCollection;
 import com.example.objects.Article;
 import org.json.simple.JSONArray;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,10 +53,13 @@ public class MyArrayAdapter extends ArrayAdapter {
 
         TextView title = (TextView) rowView.findViewById(R.id.title);
         TextView published = (TextView) rowView.findViewById(R.id.published);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        //ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
         title.setText(values.get(position).getTitle());
-        published.setText(values.get(position).getPublished());
+
+        String p = values.get(position).getPublished();
+
+        published.setText(p.substring(0,10) + " " + p.substring(11,16));
 
         return rowView;
     }

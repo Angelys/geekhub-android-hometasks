@@ -32,7 +32,7 @@ public class DetailsFragment extends SherlockFragment {
     public static DetailsFragment Instance;
 
     private Article article;
-
+    private Menu menu;
     private String title;
     private String description;
 
@@ -48,6 +48,7 @@ public class DetailsFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container, savedInstanceState );
+
         if(savedInstanceState != null)
         {
             this.title = (String)savedInstanceState.get("title");
@@ -98,8 +99,9 @@ public class DetailsFragment extends SherlockFragment {
         description.loadData(this.description, "text/html", null);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflate)
     {
+        this.menu = menu;
         List a = null;
 
         try
@@ -109,21 +111,30 @@ public class DetailsFragment extends SherlockFragment {
         {
             e.printStackTrace();
         }
+        // Sometimes a == null after orientation change
+        menu.add(0, MainActivity.OPT_BUTTON_LIKE,0,"Like").setVisible(a == null || a.size() == 0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-        if(a == null)
-        {
-            menu.add(0, MainActivity.OPT_BUTTON_LIKE,0,"Like").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        } else
-        {
-            menu.add(0,MainActivity.OPT_BUTTON_LIKE,0,"Liked").setEnabled(false).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        }
+        menu.add(0,MainActivity.OPT_BUTTON_DISLIKE,0,"Dislike").setVisible(a != null && a.size() != 0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getItemId() == MainActivity.OPT_BUTTON_LIKE)
+        switch (item.getItemId())
         {
-            likeArticle();
+            case MainActivity.OPT_BUTTON_LIKE : {
+                likeArticle();
+                item.setVisible(false);
+                menu.findItem(MainActivity.OPT_BUTTON_DISLIKE).setVisible(true);
+                break;
+            }
+
+            case MainActivity.OPT_BUTTON_DISLIKE : {
+                dislikeArticle();
+                item.setVisible(false);
+                menu.findItem(MainActivity.OPT_BUTTON_LIKE).setVisible(true);
+                break;
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -134,6 +145,20 @@ public class DetailsFragment extends SherlockFragment {
         try
         {
             DatabaseHelperFactory.GetHelper().getArticleDao().create(article);
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void dislikeArticle()
+    {
+        try
+        {
+            List<Article> items =DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
+
+            DatabaseHelperFactory.GetHelper().getArticleDao().delete(items);
+
         } catch (SQLException e)
         {
             e.printStackTrace();

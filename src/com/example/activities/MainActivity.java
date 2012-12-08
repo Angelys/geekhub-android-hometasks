@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -25,19 +27,26 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
     /**
      * Called when the activity is first created.
      */
-    InternetListener listener;
+    BroadcastReceiver updateReceiver;
     ListFragment list_frag;
+
+    public static MainActivity Instance;
+
     public static final int OPT_BUTTON_LIKE = 1;
-    public static final int OPT_BUTTON_ALLLIKES = 2;
+    public static final int OPT_BUTTON_DISLIKE = 2;
+    public static final int OPT_BUTTON_ALLLIKES = 3;
+
+    public static final String preferencesJSONData = "JSONData";
 
     public static final String updateData = "com.example.updateData";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
 
-        startService(new Intent(this, DataUpdater.class));
+        Instance = this;
 
         if( getSupportFragmentManager().findFragmentById(R.id.listfragment) == null)
         {
@@ -48,25 +57,40 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
             trans.commit();
         }
 
-        if(listener == null)
+        updateReceiver = new BroadcastReceiver()
         {
-            listener = new InternetListener();
-            listener.activity = this;
+            public void onReceive(Context context, Intent intent)
+            {
+                if(ListFragment.Instance != null)
+                {
+                    ListFragment fragment = (ListFragment) ListFragment.Instance;
 
-            registerReceiver
-                    (
-                        listener,
-                        new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-                    );
-        }
+                    fragment.updateData();
+                }
+            }
+        };
+
+        registerReceiver( updateReceiver , new IntentFilter(updateData) );
 
 
     }
 
-    public void onDestroy()
+    protected void onPause()
     {
-        stopService(new Intent(this, DataUpdater.class));
-        unregisterReceiver(listener);
+        unregisterReceiver(updateReceiver);
+        super.onPause();
+    }
+
+    protected void onResume()
+    {
+        registerReceiver(updateReceiver, new IntentFilter(updateData));
+        super.onResume();
+    }
+
+    protected void onDestroy()
+    {
+        ListFragment.Instance = null;
+        Instance = null;
         super.onDestroy();
     }
 
@@ -89,49 +113,14 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
         }
     }
 
-    public void onReceive(Context context, Intent intent)
-    {
-            Log.i("MainActivity", "Catched");
-            //updateList();
-
-    }
-
-    public static class InternetListener extends BroadcastReceiver {
-
-        MainActivity activity;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //TODO find out why it works just once on start and screen orientation change
-            if(intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false))
-            {
-                activity.showNoConnection();
-            } else
-            {
-                activity.hideNoConnection();
-            }
-        }
-    }
-
     public void showNoConnection()
     {
         Toast.makeText(this, "No connection", Toast.LENGTH_LONG).show();
     }
 
-    public void hideNoConnection()
+    public void showConnectionUp()
     {
         Toast.makeText(this, "Connection up", Toast.LENGTH_LONG).show();
-    }
-
-    public void updateList()
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                list_frag.data = JSONData.run();
-                list_frag.notifyDataSetChanged();
-            }
-        });
     }
 
 

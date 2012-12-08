@@ -1,6 +1,8 @@
 package com.example;
 
 import android.app.Application;
+import android.content.Intent;
+import com.example.Services.DataUpdater;
 import com.example.db.DatabaseHelperFactory;
 
 /**
@@ -16,9 +18,11 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DatabaseHelperFactory.SetHelper(getApplicationContext());
+        startService(new Intent(this, DataUpdater.class));
     }
     @Override
     public void onTerminate() {
+        stopService(new Intent(this, DataUpdater.class));
         DatabaseHelperFactory.ReleaseHelper();
         super.onTerminate();
     }

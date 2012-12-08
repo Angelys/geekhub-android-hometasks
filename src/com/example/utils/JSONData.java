@@ -28,7 +28,7 @@ public class JSONData {
         return parseData(getHTTP());
     }
 
-    private static String getHTTP()
+    public static String getHTTP()
     {
         try
         {
@@ -55,7 +55,7 @@ public class JSONData {
         return "";
     }
 
-    private static ArticleCollection parseData(String json_string)
+    public static ArticleCollection parseData(String json_string)
     {
         ArticleCollection result = new ArticleCollection();
 
