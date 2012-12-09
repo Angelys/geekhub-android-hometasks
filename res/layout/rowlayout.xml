@@ -7,7 +7,7 @@
         >
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="10"
@@ -23,13 +23,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@+id/published"
-                    android:textSize="15dp" />
+                    android:textSize="10dp" />
         </LinearLayout>
     <ImageView
             android:id="@+id/icon"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_launcher" >
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:contentDescription="@string/contentDescription"
+            android:src="@drawable/arrow_right" >
     </ImageView>
 
 </LinearLayout>

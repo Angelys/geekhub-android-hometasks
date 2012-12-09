@@ -42,11 +42,6 @@ public class ListFragment extends BaseListFragment {
     {
         setHasOptionsMenu(true);
 
-        if(Instance != null)
-        {
-            this.data = Instance.data;
-        }
-
         Instance = this;
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -59,24 +54,30 @@ public class ListFragment extends BaseListFragment {
         loading_container = (LinearLayout) view.findViewById(R.id.loading_container);
         loading = View.inflate(getActivity(), R.layout.loading, new LinearLayout(getActivity()));
 
-        if(data == null)
-        {
-            updateData();
-        } else
+        if(data != null)
         {
             updateUI();
+        } else if(savedData != null)
+        {
+            data = savedData;
+            updateUI();
+        } else
+        {
+            updateData();
         }
     }
 
     public void onDestroy()
     {
         getActivity().getPreferences(Context.MODE_PRIVATE).edit().remove(MainActivity.preferencesJSONData);
+        Instance = null;
         super.onDestroy();
     }
 
     public void getData()
     {
         data = JSONData.run();
+        savedData = data;
     }
 
     public void updateData()

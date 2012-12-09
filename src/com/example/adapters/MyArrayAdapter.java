@@ -47,21 +47,37 @@ public class MyArrayAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	
-	// TODO use recycling here to avoid inflating view every time
-        View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
 
-        TextView title = (TextView) rowView.findViewById(R.id.title);
-        TextView published = (TextView) rowView.findViewById(R.id.published);
-        //ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        ViewHolder viewHolder = null;
 
-        title.setText(values.get(position).getTitle());
+	    if(convertView == null)
+        {
+            convertView =  inflater.inflate(R.layout.rowlayout, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.published = (TextView) convertView.findViewById(R.id.published);
+
+            convertView.setTag(viewHolder);
+
+        } else
+        {
+            viewHolder = (ViewHolder)convertView.getTag();
+        }
+
+        viewHolder.title.setText(values.get(position).getTitle());
 
         String p = values.get(position).getPublished();
 
-        published.setText(p.substring(0,10) + " " + p.substring(11,16));
+        viewHolder.published.setText(p.substring(0,10) + " " + p.substring(11,16));
 
-        return rowView;
+        return convertView;
+    }
+
+    public static class ViewHolder
+    {
+        TextView title;
+        TextView published;
     }
 
 }

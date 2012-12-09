@@ -917,7 +917,8 @@ containing a value of this type.
         public static final int abs__textfield_searchview_holo_light=0x7f02006c;
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
-        public static final int ic_launcher=0x7f02006f;
+        public static final int arrow_right=0x7f02006f;
+        public static final int ic_launcher=0x7f020070;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040022;
@@ -1063,6 +1064,7 @@ containing a value of this type.
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090009;
         public static final int app_name=0x7f09000f;
+        public static final int contentDescription=0x7f090011;
         public static final int loading_text=0x7f090010;
     }
     public static final class style {
