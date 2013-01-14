@@ -3,4 +3,8 @@
     <string name="app_name">android-hometasks</string>
     <string name="loading_text">Loading ...</string>
     <string name="contentDescription" >Post</string>
+    <string name="likeFacebook">Like with facebook</string>
+    <string name="likeTwitter">Like with twitter</string>
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
 </resources>

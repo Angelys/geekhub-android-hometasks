@@ -46,6 +46,8 @@
     <orderEntry type="library" name="ormlite-android-4.42-sources" level="project" />
     <orderEntry type="library" name="ormlite-android-4.42-javadoc" level="project" />
     <orderEntry type="module" module-name="Action bar Sherlock" />
+    <orderEntry type="library" name="signpost-commonshttp4-1.2.1.1" level="project" />
+    <orderEntry type="module" module-name="Facebook" />
   </component>
 </module>
 

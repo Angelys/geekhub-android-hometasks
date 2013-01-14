@@ -1,23 +1,23 @@
 package com.example.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.Social.Facebook.FacebookConnector;
 import com.example.activities.MainActivity;
 import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,7 +32,7 @@ public class DetailsFragment extends SherlockFragment {
     public static DetailsFragment Instance;
 
     private Article article;
-    private Menu menu;
+    private MenuInflater menuInflater;
     private String title;
     private String description;
 
@@ -99,10 +99,10 @@ public class DetailsFragment extends SherlockFragment {
         description.loadData(this.description, "text/html", null);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflate)
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        this.menu = menu;
-        List a = null;
+        this.menuInflater = inflater;
+        /*List a = null;
 
         try
         {
@@ -112,26 +112,59 @@ public class DetailsFragment extends SherlockFragment {
             e.printStackTrace();
         }
         // Sometimes a == null after orientation change
-        menu.add(0, MainActivity.OPT_BUTTON_LIKE,0,"Like").setVisible(a == null || a.size() == 0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-        menu.add(0,MainActivity.OPT_BUTTON_DISLIKE,0,"Dislike").setVisible(a != null && a.size() != 0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        if(a == null || a.size() == 0)
+        {
+            inflater.inflate(R.menu.like, menu);
+        } else
+        {
+            inflater.inflate(R.menu.dislike, menu);
+        }*/
+    }
+
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        List a = null;
+
+        try
+        {
+            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        //TODO remake menu to resource layout
+        // Sometimes a == null after orientation change
+
+        if(a == null || a.size() == 0)
+        {
+            menuInflater.inflate(R.menu.like, menu);
+        } else
+        {
+            menuInflater.inflate(R.menu.dislike, menu);
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
-            case MainActivity.OPT_BUTTON_LIKE : {
+            case R.id.likeFacebook:
+            {
+                //new FacebookConnector(getActivity()).postMessage(article.getTitle());
                 likeArticle();
-                item.setVisible(false);
-                menu.findItem(MainActivity.OPT_BUTTON_DISLIKE).setVisible(true);
+                getActivity().invalidateOptionsMenu();
                 break;
             }
-
-            case MainActivity.OPT_BUTTON_DISLIKE : {
+            case R.id.likeTwitter:
+            {
+                likeArticle();
+                getActivity().invalidateOptionsMenu();
+                break;
+            }
+            case R.id.dislike : {
                 dislikeArticle();
-                item.setVisible(false);
-                menu.findItem(MainActivity.OPT_BUTTON_LIKE).setVisible(true);
+                getActivity().invalidateOptionsMenu();
                 break;
             }
 
