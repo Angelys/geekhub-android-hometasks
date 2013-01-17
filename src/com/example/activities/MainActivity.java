@@ -18,10 +18,13 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
+import com.example.Services.DataUpdater;
+import com.example.db.DatabaseHelperFactory;
 import com.example.fragments.DetailsFragment;
 import com.example.fragments.ListFragment;
 import com.example.objects.Article;
 import com.example.utils.JSONData;
+import com.facebook.Session;
 
 public class MainActivity extends SherlockFragmentActivity implements ListFragment.onListElementSelectedListener {
     /**
@@ -92,6 +95,8 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
         ListFragment.Instance = null;
         Instance = null;
         super.onDestroy();
+        stopService(new Intent(this, DataUpdater.class));
+        DatabaseHelperFactory.ReleaseHelper();
     }
 
     public void onItemSelected(Article article)

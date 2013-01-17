@@ -48,6 +48,7 @@
     <orderEntry type="module" module-name="Action bar Sherlock" />
     <orderEntry type="library" name="signpost-commonshttp4-1.2.1.1" level="project" />
     <orderEntry type="module" module-name="Facebook" />
+    <orderEntry type="library" name="android-support-v4 (2)" level="project" />
   </component>
 </module>
 

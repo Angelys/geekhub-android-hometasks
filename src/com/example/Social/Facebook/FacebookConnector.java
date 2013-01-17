@@ -1,14 +1,21 @@
 package com.example.Social.Facebook;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Base64;
+import android.content.pm.Signature;
 import android.util.Log;
 import android.widget.Toast;
 import com.facebook.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,9 +27,10 @@ import java.util.List;
  */
 public class FacebookConnector {
 
-    public List<String> permissions = new ArrayList<String>();
-    public Session session;
+    public List<String> permissions = Arrays.asList("publish_stream");
+    public static Session session;
     public Activity context;
+    public String appid = "319905308120793";
 
     public String TAG = "FacebookConnector";
 
@@ -32,9 +40,11 @@ public class FacebookConnector {
         {
             if(state.isOpened())
             {
+                Log.e("Status changed", "opened");
                 Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show();
             } else if(state.isClosed())
             {
+                Log.e("Status changed", "closed");
                 Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
             }
         }
@@ -42,55 +52,38 @@ public class FacebookConnector {
 
     public FacebookConnector(Activity activity)
     {
-        permissions.add("basic_info");
-        permissions.add("publish_actions");
         this.context = activity;
-    }
 
-    public void logIn()
-    {
-        session = Session.getActiveSession();
-        if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(context)
-                    .setPermissions(permissions)
-                    .setCallback(statusCallback));
-        } else {
-            session = Session.openActiveSession(context, true, statusCallback);
-        }
+        session = new Session(context);
+
+        Session.setActiveSession(session);
+
     }
 
     public void postMessage(String message)
     {
-        if(session.isOpened())
-        {
-            postMessageRequest(message);
-        } else
-        {
-            logIn();
-        }
+        final String mess = message;
+
+        session.openForPublish(new Session.OpenRequest(context).setPermissions(permissions).setCallback(new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+                if(state.isOpened())
+                {
+                    postMessageRequest(mess);
+                }
+            }
+        }));
     }
 
     public void postMessageRequest(String message)
     {
         Bundle postParams = new Bundle();
-        postParams.putString("name", "Facebook SDK for Android");
-        //postParams.putString("caption", "Build great social apps and get more installs.");
-        postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-        //postParams.putString("link", "https://developers.facebook.com/android");
-        //postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+        postParams.putString("message", message);
 
         Request.Callback callback= new Request.Callback() {
             public void onCompleted(Response response) {
-                JSONObject graphResponse = response
-                        .getGraphObject()
-                        .getInnerJSONObject();
-                String postId = null;
-                try {
-                    postId = graphResponse.getString("id");
-                } catch (JSONException e) {
-                    Log.i(TAG,
-                            "JSON error " + e.getMessage());
-                }
+
+
                 FacebookRequestError error = response.getError();
                 if (error != null) {
                     Toast.makeText(context
@@ -100,7 +93,7 @@ public class FacebookConnector {
                 } else {
                     Toast.makeText(context
                             .getApplicationContext(),
-                            postId,
+                            "Thank you!",
                             Toast.LENGTH_LONG).show();
                 }
             }

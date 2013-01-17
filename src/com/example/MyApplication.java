@@ -20,11 +20,5 @@ public class MyApplication extends Application {
         DatabaseHelperFactory.SetHelper(getApplicationContext());
         startService(new Intent(this, DataUpdater.class));
     }
-    @Override
-    public void onTerminate() {
-        stopService(new Intent(this, DataUpdater.class));
-        DatabaseHelperFactory.ReleaseHelper();
-        super.onTerminate();
-    }
 
 }

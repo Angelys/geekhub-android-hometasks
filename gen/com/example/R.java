@@ -1172,14 +1172,11 @@ containing a value of this type.
         public static final int descriprion_title=0x7f04004a;
         public static final int detailsfragment=0x7f04004d;
         public static final int disableHome=0x7f04000b;
-        public static final int dislike=0x7f040053;
         public static final int edit_query=0x7f040029;
         public static final int homeAsUp=0x7f040008;
         public static final int icon=0x7f040050;
         public static final int large=0x7f040002;
-        public static final int like=0x7f040054;
-        public static final int likeFacebook=0x7f040055;
-        public static final int likeTwitter=0x7f040056;
+        public static final int like_dislike=0x7f040053;
         public static final int listMode=0x7f040004;
         public static final int listfragment=0x7f04004c;
         public static final int loading_container=0x7f040051;
@@ -1187,6 +1184,8 @@ containing a value of this type.
         public static final int picker_subtitle=0x7f040046;
         public static final int published=0x7f04004f;
         public static final int search_box=0x7f040045;
+        public static final int shareFacebook=0x7f040054;
+        public static final int shareTwitter=0x7f040055;
         public static final int showCustom=0x7f04000a;
         public static final int showHome=0x7f040007;
         public static final int showTitle=0x7f040009;
@@ -1246,8 +1245,7 @@ containing a value of this type.
         public static final int titleslist=0x7f03002a;
     }
     public static final class menu {
-        public static final int dislike=0x7f0b0000;
-        public static final int like=0x7f0b0001;
+        public static final int menu=0x7f0b0000;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1295,6 +1293,7 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f050022;
+        public static final int appId=0x7f05002e;
         public static final int app_name=0x7f050028;
         public static final int com_facebook_choose_friends=0x7f05000f;
         public static final int com_facebook_dialogloginactivity_ok_button=0x7f050000;
@@ -1322,11 +1321,10 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_logged_in=0x7f050009;
         public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f05000a;
         public static final int contentDescription=0x7f05002a;
-        public static final int dislike=0x7f05002e;
-        public static final int like=0x7f05002d;
-        public static final int likeFacebook=0x7f05002b;
-        public static final int likeTwitter=0x7f05002c;
         public static final int loading_text=0x7f050029;
+        public static final int share=0x7f05002d;
+        public static final int shareFacebook=0x7f05002b;
+        public static final int shareTwitter=0x7f05002c;
     }
     public static final class style {
         public static final int DialogWindowTitle_Sherlock=0x7f080038;

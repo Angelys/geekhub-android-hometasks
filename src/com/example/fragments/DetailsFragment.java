@@ -1,5 +1,6 @@
 package com.example.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.example.Social.Facebook.FacebookConnector;
 import com.example.activities.MainActivity;
 import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
+import com.facebook.Session;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -35,6 +37,8 @@ public class DetailsFragment extends SherlockFragment {
     private MenuInflater menuInflater;
     private String title;
     private String description;
+    private Boolean inDB;
+    private FacebookConnector facebookConnector;
 
     public DetailsFragment(){}
 
@@ -102,24 +106,6 @@ public class DetailsFragment extends SherlockFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         this.menuInflater = inflater;
-        /*List a = null;
-
-        try
-        {
-            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        // Sometimes a == null after orientation change
-
-        if(a == null || a.size() == 0)
-        {
-            inflater.inflate(R.menu.like, menu);
-        } else
-        {
-            inflater.inflate(R.menu.dislike, menu);
-        }*/
     }
 
     public void onPrepareOptionsMenu(Menu menu)
@@ -133,37 +119,35 @@ public class DetailsFragment extends SherlockFragment {
         {
             e.printStackTrace();
         }
-        //TODO remake menu to resource layout
-        // Sometimes a == null after orientation change
 
-        if(a == null || a.size() == 0)
-        {
-            menuInflater.inflate(R.menu.like, menu);
-        } else
-        {
-            menuInflater.inflate(R.menu.dislike, menu);
-        }
+        inDB = !(a == null || a.size() == 0);
+
+        menuInflater.inflate(R.menu.menu, menu);
+        menu.findItem(R.id.like_dislike).setTitle(inDB?"dislike":"like");
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
-            case R.id.likeFacebook:
+            case R.id.shareFacebook:
             {
-                //new FacebookConnector(getActivity()).postMessage(article.getTitle());
-                likeArticle();
-                getActivity().invalidateOptionsMenu();
+                facebookConnector = new FacebookConnector(getActivity());
+                facebookConnector.postMessage(article.getTitle());
                 break;
             }
-            case R.id.likeTwitter:
+            case R.id.shareTwitter:
             {
-                likeArticle();
-                getActivity().invalidateOptionsMenu();
                 break;
             }
-            case R.id.dislike : {
-                dislikeArticle();
+            case R.id.like_dislike : {
+                if(inDB)
+                {
+                    dislikeArticle();
+                } else
+                {
+                    likeArticle();
+                }
                 getActivity().invalidateOptionsMenu();
                 break;
             }
@@ -196,6 +180,13 @@ public class DetailsFragment extends SherlockFragment {
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession()
+                .onActivityResult(getActivity(), requestCode, resultCode, data);
     }
 
 }
