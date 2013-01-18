@@ -128,5 +128,4 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
         Toast.makeText(this, "Connection up", Toast.LENGTH_LONG).show();
     }
 
-
 }

@@ -2,22 +2,28 @@ package com.example.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.R;
 import com.example.Social.Facebook.FacebookConnector;
+import com.example.Social.Twitter.TwitterConnector;
+import com.example.Social.Twitter.TwitterUtils;
 import com.example.activities.MainActivity;
 import com.example.db.DatabaseHelperFactory;
 import com.example.objects.Article;
 import com.facebook.Session;
+import twitter4j.TwitterException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -138,6 +144,12 @@ public class DetailsFragment extends SherlockFragment {
             }
             case R.id.shareTwitter:
             {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TwitterUtils.sendTweetExec(getActivity(), article.getTitle());
+                    }
+                }).start();
                 break;
             }
             case R.id.like_dislike : {
