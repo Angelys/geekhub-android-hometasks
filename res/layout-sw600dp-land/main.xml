@@ -12,7 +12,7 @@
         android:id="@+id/listfragment"
         />
     <fragment
-        class="com.example.fragments.DetailsFragment"
+        class="com.angelys.fragments.DetailsFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
