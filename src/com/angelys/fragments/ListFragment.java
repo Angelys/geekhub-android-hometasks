@@ -89,10 +89,9 @@ public class ListFragment extends BaseListFragment {
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if( null == loading_container.findViewById(R.layout.loading))
-                {
-                    loading_container.addView(loading);
-                }
+
+                loading_container.removeAllViews();
+                loading_container.addView(loading);
             }
         });
 

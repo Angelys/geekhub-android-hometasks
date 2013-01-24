@@ -43,7 +43,7 @@ public class DetailsFragment extends SherlockFragment {
 
     public DetailsFragment(Article post)
     {
-        this.article = post;
+        article = post;
         this.title = post.getTitle();
         this.description = post.getDescription();
     }
@@ -133,8 +133,6 @@ public class DetailsFragment extends SherlockFragment {
         {
             case R.id.shareFacebook:
             {
-
-
                 facebookConnector = new FacebookConnector(getActivity());
                 facebookConnector.postMessage(article.getTitle());
                 break;
@@ -189,13 +187,6 @@ public class DetailsFragment extends SherlockFragment {
         {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession()
-                .onActivityResult(getActivity(), requestCode, resultCode, data);
     }
 
 }

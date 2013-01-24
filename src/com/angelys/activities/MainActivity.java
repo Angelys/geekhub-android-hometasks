@@ -14,6 +14,7 @@ import com.angelys.db.DatabaseHelperFactory;
 import com.angelys.fragments.DetailsFragment;
 import com.angelys.fragments.ListFragment;
 import com.angelys.objects.Article;
+import com.facebook.Session;
 
 public class MainActivity extends SherlockFragmentActivity implements ListFragment.onListElementSelectedListener {
     /**
@@ -66,10 +67,6 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
             }
         };
 
-        // TODO remove it from here, leave it only in onResume()
-        registerReceiver( updateReceiver , new IntentFilter(updateData) );
-
-
     }
 
     protected void onPause()
@@ -110,6 +107,13 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
             trans.addToBackStack(null);
             trans.commit();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession()
+                .onActivityResult(this, requestCode, resultCode, data);
     }
 
     public void showNoConnection()
