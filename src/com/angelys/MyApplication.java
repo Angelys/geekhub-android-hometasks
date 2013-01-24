@@ -2,8 +2,7 @@ package com.angelys;
 
 import android.app.Application;
 import android.content.Intent;
-import com.angelys.Services.DataUpdater;
-import com.angelys.db.DatabaseHelperFactory;
+import com.angelys.services.DataUpdater;
 
 /**
  * Created with IntelliJ IDEA.

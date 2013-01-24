@@ -1,4 +1,4 @@
-package com.angelys.Social.Twitter;
+package com.angelys.social.twitter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -117,7 +117,7 @@ public class TwitterConnector extends Activity {
 
                 TwitterUtils.sendTweet(prefs, msg);
             } catch (Exception e) {
-                Log.e(TAG, "OAuth - Error sending to Twitter", e);
+                Log.e(TAG, "OAuth - Error sending to twitter", e);
             }
         }
     }

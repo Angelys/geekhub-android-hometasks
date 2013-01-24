@@ -1,4 +1,4 @@
-package com.angelys.Social.Twitter;
+package com.angelys.social.twitter;
 
 /**
  * Created with IntelliJ IDEA.

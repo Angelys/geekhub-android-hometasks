@@ -1,4 +1,4 @@
-package com.angelys.Services;
+package com.angelys.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;

@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.angelys.R;
-import com.angelys.Services.DataUpdater;
+import com.angelys.services.DataUpdater;
 import com.angelys.db.DatabaseHelperFactory;
 import com.angelys.fragments.DetailsFragment;
 import com.angelys.fragments.ListFragment;

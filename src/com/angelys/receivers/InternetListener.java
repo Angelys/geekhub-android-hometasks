@@ -1,4 +1,4 @@
-package com.angelys.Receivers;
+package com.angelys.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
