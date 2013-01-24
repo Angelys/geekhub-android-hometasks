@@ -113,6 +113,8 @@ public class DetailsFragment extends SherlockFragment {
 
         try
         {
+            // TODO it's better to make db queries on a thread, especially for big numbers of data,
+            // unless it's already implemented on framework level.
             a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
         } catch (SQLException e)
         {
