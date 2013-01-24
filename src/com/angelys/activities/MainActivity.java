@@ -66,6 +66,7 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
             }
         };
 
+        // TODO remove it from here, leave it only in onResume()
         registerReceiver( updateReceiver , new IntentFilter(updateData) );
 
 

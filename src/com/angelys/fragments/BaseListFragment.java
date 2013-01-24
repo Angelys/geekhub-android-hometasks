@@ -21,6 +21,8 @@ import com.angelys.objects.ArticleCollection;
  * Time: 4:51 PM
  * To change this template use File | Settings | File Templates.
  */
+
+// if it's a fragment for lists only why not to make it extend the SherlockListFragment?
 public class BaseListFragment extends SherlockFragment {
 
     protected ListView list;
