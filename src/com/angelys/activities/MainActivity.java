@@ -39,8 +39,6 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(R.style.Theme_Sherlock);
-
         setContentView(R.layout.main);
 
         //details fragment already opened connection

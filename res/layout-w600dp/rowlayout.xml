@@ -13,8 +13,8 @@
             android:layout_weight="10"
         >
             <TextView
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="16dp"
                     android:paddingTop="5dp"
                     android:textStyle="bold"
                     android:id="@+id/title"
@@ -23,7 +23,7 @@
                     android:text="@+id/title"
                     android:textSize="20dp" />
             <TextView
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="48dp"
                     android:id="@+id/published"
                     android:textStyle="italic"
                     android:layout_width="wrap_content"

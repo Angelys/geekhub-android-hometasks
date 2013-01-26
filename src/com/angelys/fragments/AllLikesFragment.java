@@ -22,6 +22,7 @@ import java.sql.SQLException;
 public class AllLikesFragment extends BaseListFragment {
 
     public static AllLikesFragment Instance;
+    public View no_items;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -35,29 +36,35 @@ public class AllLikesFragment extends BaseListFragment {
             e.printStackTrace();
         }
 
+        no_items = inflater.inflate(R.layout.no_items, container, false);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public void refresh()
     {
-        try
+        if(getView() != null)
         {
-            data = new ArticleCollection(DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll());
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        if(data.isEmpty())
-        {
+            try
+            {
+                data = new ArticleCollection(DatabaseHelperFactory.GetHelper().getArticleDao().queryForAll());
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
             LinearLayout layout = (LinearLayout)getView().findViewById(R.id.loading_container);
-            TextView label = new TextView(getActivity());
-            label.setText(R.string.empty_list);
 
-            layout.addView(label);
-        }
+            if(data.isEmpty())
+            {
+                layout.addView(no_items);
+            } else
+            {
+                layout.removeAllViews();
+            }
 
             updateUI();
+        }
+
 
     }
 
@@ -68,10 +75,8 @@ public class AllLikesFragment extends BaseListFragment {
         if(data.isEmpty())
         {
             LinearLayout layout = (LinearLayout)getView().findViewById(R.id.loading_container);
-            TextView label = new TextView(getActivity());
-            label.setText(R.string.empty_list);
 
-            layout.addView(label);
+            layout.addView(no_items);
         }
 
         updateUI();

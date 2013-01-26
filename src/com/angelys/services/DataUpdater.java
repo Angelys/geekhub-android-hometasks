@@ -69,7 +69,7 @@ public class DataUpdater extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         // 2-я часть
-        notification.setLatestEventInfo(this, "Notification's title", "Notification's text", pIntent);
+        notification.setLatestEventInfo(this, "Angelys application waiting for you", "You have long time no visit this application. Mane posts have appeared.", pIntent);
 
         // ставим флаг, чтобы уведомление пропало после нажатия
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
