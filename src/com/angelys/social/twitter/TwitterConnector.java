@@ -51,7 +51,7 @@ public class TwitterConnector extends Activity {
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final Uri uri = intent.getData();
         if (uri != null && uri.getScheme().equals(TwitterConstants.OAUTH_CALLBACK_SCHEME)) {
             Log.i(TAG, "Callback received : " + uri);

@@ -80,11 +80,11 @@ public class TwitterUtils {
 
     public static void sendTweetExec(Context context, String msg)
     {
-        if(TwitterUtils.isAuthenticated(PreferenceManager.getDefaultSharedPreferences(context)))
+        if(TwitterUtils.isAuthenticated(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())))
         {
             try
             {
-                TwitterUtils.sendTweet(PreferenceManager.getDefaultSharedPreferences(context), msg);
+                TwitterUtils.sendTweet(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()), msg);
                 showToast(context, true);
             } catch (TwitterException e)
             {
