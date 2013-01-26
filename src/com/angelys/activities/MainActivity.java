@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.angelys.R;
@@ -41,15 +43,26 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
 
         setContentView(R.layout.main);
 
-        DatabaseHelperFactory.SetHelper(getApplicationContext());
+        //details fragment already opened connection
+        if(DatabaseHelperFactory.GetHelper() == null)
+        {
+            DatabaseHelperFactory.SetHelper(getApplicationContext());
+        }
 
         Instance = this;
 
-        if( getSupportFragmentManager().findFragmentById(R.id.listfragment) == null)
+        if( getSupportFragmentManager().findFragmentById(R.id.listfragment) == null || findViewById(R.id.detailsfragment) != null)
         {
             list_frag = new ListFragment();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.listfragment, list_frag);
+
+            if(getSupportFragmentManager().findFragmentById(R.id.detailsfragment) != null)
+            {
+                trans.replace(R.id.listfragment, list_frag);
+            } else
+            {
+                trans.add(R.id.listfragment, list_frag);
+            }
 
             trans.commit();
         }
@@ -94,7 +107,7 @@ public class MainActivity extends SherlockFragmentActivity implements ListFragme
     {
         DetailsFragment detfrag = (DetailsFragment)getSupportFragmentManager().findFragmentById(R.id.detailsfragment);
 
-        if(detfrag != null)
+        if(detfrag != null && detfrag.getView() != null)
         {
              detfrag.showArticle(article);
         } else

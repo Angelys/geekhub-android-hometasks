@@ -1,6 +1,5 @@
 package com.angelys.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.angelys.R;
+import com.angelys.db.DatabaseHelperFactory;
+import com.angelys.db.DatabaseHelper;
+import com.angelys.objects.Article;
 import com.angelys.social.facebook.FacebookConnector;
 import com.angelys.social.twitter.TwitterUtils;
-import com.angelys.db.DatabaseHelperFactory;
-import com.angelys.objects.Article;
-import com.facebook.Session;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -92,6 +91,7 @@ public class DetailsFragment extends SherlockFragment {
 
     public void showArticle(Article post)
     {
+        article = post;
         this.title = post.getTitle();
         this.description = post.getDescription();
 
@@ -100,6 +100,8 @@ public class DetailsFragment extends SherlockFragment {
 
         title.setText(this.title);
         description.loadData(this.description, "text/html", null);
+
+        getSherlockActivity().invalidateOptionsMenu();
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
@@ -109,22 +111,34 @@ public class DetailsFragment extends SherlockFragment {
 
     public void onPrepareOptionsMenu(Menu menu)
     {
-        List a = null;
+        if(article != null)
+        {
+            List a = null;
 
-        try
-        {
-            // TODO it's better to make db queries on a thread, especially for big numbers of data,
-            // unless it's already implemented on framework level.
-            a = DatabaseHelperFactory.GetHelper().getArticleDao().queryForMatchingArgs(article);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                // TODO it's better to make db queries on a thread, especially for big numbers of data,
+                // unless it's already implemented on framework level.
+                DatabaseHelper helper = DatabaseHelperFactory.GetHelper();
+                if(helper == null)
+                {
+                    DatabaseHelperFactory.SetHelper(getActivity().getApplicationContext());
+                    helper = DatabaseHelperFactory.GetHelper();
+                }
+
+                a = helper.getArticleDao().queryForMatchingArgs(article);
+
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            inDB = !(a == null || a.size() == 0);
+
+            menuInflater.inflate(R.menu.menu, menu);
+            menu.findItem(R.id.like_dislike).setTitle(inDB?"dislike":"like");
         }
 
-        inDB = !(a == null || a.size() == 0);
-
-        menuInflater.inflate(R.menu.menu, menu);
-        menu.findItem(R.id.like_dislike).setTitle(inDB?"dislike":"like");
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
@@ -155,6 +169,12 @@ public class DetailsFragment extends SherlockFragment {
                 {
                     likeArticle();
                 }
+
+                if(AllLikesFragment.Instance != null)
+                {
+                    AllLikesFragment.Instance.refresh();
+                }
+
                 getSherlockActivity().invalidateOptionsMenu();
                 break;
             }

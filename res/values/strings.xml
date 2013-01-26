@@ -7,4 +7,5 @@
     <string name="shareTwitter">Share with twitter</string>
     <string name="share">Share</string>
     <string name="appId">319905308120793</string>
+    <string name="empty_list">No items</string>
 </resources>
